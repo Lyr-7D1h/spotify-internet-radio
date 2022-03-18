@@ -39,7 +39,7 @@ Go to `http://${YOUR_IP}:8000/mopidy
 Replace MPD_HOST
 
 ```bash
-LHOST=`hostname -I |  awk '{print $1;}'` ssh {MPD_HOST} 'mpc add http://${LHOST}:8000/mopidy && mpc play'
+LHOST=`hostname -I |  awk '{print $1;}'` ssh {MPD_HOST} "mpc add http://${LHOST}:8000/mopidy && mpc play"
 ```
 
 
