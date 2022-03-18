@@ -2,7 +2,6 @@
 .vscode/**
 **/build-push.sh
 
-mopidy-icecast/data
-mopidy-icecast/cache
+mopidy-icecast
 
 mopidy.conf

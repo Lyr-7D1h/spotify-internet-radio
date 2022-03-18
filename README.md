@@ -24,7 +24,7 @@ docker-compose up
 
 **Control your internet radio**
 
-You can use ncmcpp (Cheatsheet: https://pkgbuild.com/~jelle/ncmpcpp/) or any other mpd clients.
+You can use ncmcpp (Cheatsheet: https://pkgbuild.com/~jelle/ncmpcpp/) or any other mpd clients. An example of a gui mpd client is ymuse (https://github.com/yktoo/ymuse).
 
 ```bash
 ncmpcpp
