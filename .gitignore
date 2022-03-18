@@ -3,5 +3,6 @@
 **/build-push.sh
 
 mopidy-icecast/data
+mopidy-icecast/cache
 
 mopidy.conf
