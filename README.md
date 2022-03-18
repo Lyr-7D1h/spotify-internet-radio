@@ -1,69 +1,41 @@
-# Mopidy with Icecast / Snapcast on Docker containers
+# Spotify Internet Radio
 
-This repository contains two setups:
+Create your own internet radio streaming your spotify songs. This can be usefull if you want to stream to a MPD server.
 
-- [Mopidy](https://github.com/mopidy/mopidy) with audio streaming across a network using [Icecast](https://gitlab.xiph.org/xiph/icecast-server/);
-- [Mopidy](https://github.com/mopidy/mopidy) with synchronized multi-room audio streaming using [Snapcast](https://github.com/badaix/snapcast);
+# Usage
 
-Mopidy is a music server and handles streaming services such as TuneIn, Spotify, Local Files and is extensible to other services. [Iris](https://github.com/jaedb/Iris) is the frontend extension chosen for Mopidy because is responsive, user-friendly and beautifully designed.
+**Configuring your server**
 
----
+Create a mopidy.conf in the root of the folder
 
-## Mopidy with Icecast
+```bash
+cp mopidy.example.conf mopidy.conf
+```
 
-This setup streams music from a chosen source and stream it via an Icecast Server, making the stream accessible network wide or internet wide in case you want to expose your server, behind a reverse proxy, for example. Icecast doesn't synchronize the listeners/clients so, although this setup can be used to a multi-room scenario, it won't deliver the perfect experience (Mopidy with Snapcast is made for that). A good use is to stream music for an internet radio.
+Change `{SPOTIFY_PASSWORD}`, `{SPOTIFY_PASSWORD}`, `{SPOTIFY_CLIENT_ID}` and `{SPOTIFY_CLIENT_SECRET}` to their corresponding values
 
-In this setup, Mopidy-Iris is controlled at: `http://<your-server-ip>:6681` and Icecast is streamed at: `http://<your-server-ip>:8001`. The Icecast container comes with a basic webpage with an audio player to play whatever Mopidy is streaming. See the `icecast/www` folder for details. Of course the ports can be customized on demand via `docker-compose` and you can expose your service through HTTPS using a reverse proxy. In my local network I'm using Caddy Server <https://hub.docker.com/_/caddy> as my reverse proxy solution to serve my services in HTTPS.
+**Starting your sever**
 
-### Configuration
+This will run your internet radio locally
 
-The Mopidy configuration for this setup is fetched from the folder `mopidy-icesnap/mopidy/mopidy-icecast.conf`. The output doesn't need to be changed. Important sections here are:
+```bash
+docker-compose up
+```
 
-- [spotify] - Authenticate here <https://mopidy.com/ext/spotify/#authentication> and paste in the `client_id` and `client_secret`;
-- [scrobbler] - Last.fm scrobbler if you want to enable it, not mandatory;
+**Control your internet radio**
 
----
+You can use ncmcpp (Cheatsheet: https://pkgbuild.com/~jelle/ncmpcpp/) or any other mpd clients.
 
-## Mopidy with Snapcast
+```bash
+ncmpcpp
+```
 
-This setup is perfect for a multi-room audio where the clients are synchronized to each other. As well the streaming can be controlled from a single source (Mopidy), while being accessible from various devices on a fantastic web client. The setup consists of a main streaming server with several clients in each room, for each room you'll need a host capable of running the `snapclient` docker image or, alternatively, you can use an old Android phone either installing Snapcast (<https://play.google.com/store/apps/details?id=de.badaix.snapcast>) or using the web interface from your Snapcast server. You'll also need one speaker for each client (oh really?).
-Once connected to the server, clients automatically syncronize the streaming.
+**Add the internet stream to your mpd server**
 
-## Mopidy
+Replace MPD_HOST
 
-`TODO`
+```bash
+LHOST=`hostname -I |  awk '{print $1;}'` ssh {MPD_HOST} 'mpc add http://${LHOST}:8000/mopidy && mpc play'
+```
 
-- Iris (frontend)
-- Mobile (frontend)
-- TuneIn
-- MPD
-- Local
-- m3u
-- Spotify
 
-## Snapcast
-
-- Streams
-    - [Mopidy] FIFO stream using `tmp/snapfifo`
-    - [Spotify] Spotify Connect stream from `librespot` (Raspotify)
-
-- Clients
-    - [Snap.Net](https://github.com/stijnvdb88/Snap.Net)
-    - [snapdroid](https://github.com/badaix/snapdroid)
-    - [MPDCtrl](https://github.com/torum/MPDCtrl)
-
-## Stream Manager
-
-A dead simple python script that automatically switches to the active streaming queue on Snapserver. It's a simple automation to make a seamless streaming whenever you want to switch from Spotify Connect (Raspotify) to Mopidy and vice-versa without the hassle of choosing the streaming queues.
-
-## Icecast
-
-`TODO`
-
-## Raspberry Pi Docker Images
-
-Raspberry Pi images can be found at:
-
-<https://hub.docker.com/u/rfabri>
-
-I try to update the images whenever there's a new release for the used components.
