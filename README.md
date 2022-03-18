@@ -30,6 +30,10 @@ You can use ncmcpp (Cheatsheet: https://pkgbuild.com/~jelle/ncmpcpp/) or any oth
 ncmpcpp
 ```
 
+**Play music from anywhere that connect to your machine**
+
+Go to `http://${YOUR_IP}:8000/mopidy
+
 **Add the internet stream to your mpd server**
 
 Replace MPD_HOST
