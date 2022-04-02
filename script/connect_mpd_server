@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+#
+# SSH into a mpd server on your local network and make it play your spotify internet radio
+#
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+HOST="$1"
+
+if [[ "$HOST" == "" ]]; then
+	echo "No Host given"
+	exit 1
+fi
+
+
+LHOST=`hostname -I |  awk '{print $1;}'` 
+echo "Local IP ${LHOST}"
+
+MPD_ADD="mpc add http://${LHOST}:8000/mopidy"
+ssh $HOST $MPD_ADD'&& mpc play `mpc playlist | wc -l`'
