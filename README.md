@@ -2,6 +2,9 @@
 
 Create your own internet radio streaming your spotify songs. This can be usefull if you want to stream to a MPD server.
 
+## DEPRECATED
+Due to removed support for libspotify current setup is broken.
+
 # Usage
 
 **Configuring your server**
